@@ -1,0 +1,2 @@
+pytrends==4.6.0
+pandas==0.24.2
