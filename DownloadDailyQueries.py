@@ -2,9 +2,6 @@ import random
 import time
 from pytrends.request import TrendReq
 import pandas as pd
-import time
-import pandas as pd
-from pytrends.request import TrendReq
 
 # set gmail credentials and path to extract data
 
