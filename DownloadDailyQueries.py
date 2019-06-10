@@ -16,7 +16,49 @@ pytrend = TrendReq()
 kwsets = []
 daily_data = {} #for each keyword, array of [date,count] tuples
 
-GEO = 'US-GA-524'
+# GEO Codes for our areas
+DMA_CODES = {
+    "atlanta": {
+        "STATE": "GA",
+        "DMA": 524,
+    },
+    "boston": {
+        "STATE": "MA",
+        "DMA": 506,
+    },
+    "chicago": {
+      "STATE": "IL",
+      "DMA": 602,
+    },
+    "dallas": {
+        "STATE": "TX",
+        "DMA": 623,
+    },
+    "houston": {
+        "STATE": "TX",
+        "DMA": 618,
+    },
+    "los angeles": {
+        "STATE": "CA",
+        "DMA": 803,
+    },
+    "miami": {
+        "STATE": "FL",
+        "DMA": 528,
+    },
+    "new york": {
+        "STATE": "NY",
+        "DMA": 501,
+    },
+    "philadelphia": {
+        "STATE": "PA",
+        "DMA": 504,
+    },
+    "washington": {  # DC
+        "STATE": "DC",
+        "DMA": 511,
+    },
+}'
 
 ozone_keywords = [
     ['ozone', 'smog', 'air pollution', 'haze', 'soot'],
