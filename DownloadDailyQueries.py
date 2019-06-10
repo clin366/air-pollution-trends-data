@@ -18,13 +18,45 @@ daily_data = {} #for each keyword, array of [date,count] tuples
 
 GEO = 'US-GA-524'
 
-#pollution-related
-kwsets.append( ['ozone', 'smog', 'air pollution', 'haze', 'soot' ])
-kwsets.append( ['ozone', 'code orange', 'code red', 'O3', 'smoke' ])
-#health-related
-kwsets.append( ['ozone', 'cough', 'wheezing', 'snoring', 'asthma' ])
-kwsets.append( ['ozone', 'difficulty breathing', 'lung irritation', 'COPD', 'inhaler' ])
-kwsets.append( ['ozone', 'bronchiolitis', 'irregular heartbeat', 'chest pain', 'heart murmur' ])
+ozone_keywords = [
+    ['ozone', 'smog', 'air pollution', 'haze', 'soot'],
+    ['ozone', 'code orange', 'code red', 'O3', 'smoke'],
+    ['ozone', 'asthma', 'respiratory illness', 'respiratory infection', 'lung disease'],
+    ['ozone', 'Chronic obstructive pulmonary disease', 'COPD', 'bronchitis', 'asthma attack'],
+    ['ozone', 'headache', 'cough', 'coughing', 'wheezing'],
+    ['ozone', 'chest pain', 'chest tightness', 'shortness of breath', 'throat irritation'],
+    ['ozone', 'difficulty breathing', 'lung irritation', 'inhaler', 'rapid breathing'],
+    ['ozone', 'heart murmur', 'bronchiolitis', 'snoring', 'irregular heartbeat'],
+]
+
+nitrogen_keywords = [
+    ['nitrogen dioxide', 'no2', 'n02', 'air pollution', 'air pollutant'],
+    ['nitrogen dioxide', 'nitrogen oxides', 'oxides of nitrogen', 'smoke', ],
+    ['nitrogen dioxide', 'traffic emission', 'tailpipe', 'traffic exposure'],
+    ['nitrogen dioxide', 'smog', 'smoggy', 'code orange', 'code red'],
+    ['nitrogen dioxide', 'brown', 'brownish', 'reddish-brown', 'haze'],
+    ['nitrogen dioxide', 'asthma', 'respiratory illness', 'respiratory infection', 'lung disease'],
+    ['nitrogen dioxide', 'Chronic obstructive pulmonary disease', 'COPD', 'bronchitis', 'asthma attack'],
+    ['nitrogen dioxide', 'headache', 'coughing', 'wheezing', 'rapid breathing'],
+    ['nitrogen dioxide', 'chest pain', 'chest tightness', 'shortness of breath', 'throat irritation'],
+    ['nitrogen dioxide', 'difficulty breathing', 'lung irritation', 'inhaler', 'irregular heartbeat'],
+]
+
+particulate_matter = [
+    ['particulate matter', 'pm2.5', 'pm5', 'particulate matter pollution', 'fine particulates'],
+    ['particulate matter', 'air pollution', 'fine particles', 'fine inhalable particles', 'particle pollution'],
+    ['particulate matter', 'wildfires', 'power plants', 'industrial pollution', 'organic carbon'],
+    ['particulate matter', 'traffic', 'traffic emission', 'tailpipe', 'sulfate'],
+    ['particulate matter', 'black carbon', 'elemental carbon', 'soot', 'smog'],
+    ['particulate matter', 'haze', 'code orange', 'code red', 'air pollution alert'],
+    ['particulate matter', 'grey', 'blue', 'pink', 'asthma'],
+    ['particulate matter', 'respiratory illness', 'respiratory infection', 'lung disease', 'bronchitis'],
+    ['particulate matter', 'chronic obstructive pulmonary disease', 'COPD', 'lung cancer', 'cardiovascular disease'],
+    ['particulate matter', 'premature death',  'Rapid heart rate', 'rapid pulse', 'rapid breathing'],
+    ['particulate matter', 'asthma attack', 'coughing', 'arrhythmia', 'wheezing'],
+    ['particulate matter', 'chest tightness', 'shortness of breath', 'throat irritation', 'inhaler use'],
+    ['particulate matter', 'childhood asthma', 'pediatric asthma'],
+]
 
 start_dates = [
     '2007-01-01', '2007-07-01', '2008-01-01', '2008-07-01',
