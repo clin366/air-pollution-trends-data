@@ -13,9 +13,6 @@ pytrend = TrendReq()
 
 # Create payload and capture API tokens. Only needed for interest_over_time(), interest_by_region() & related_queries()
 
-kwsets = []
-daily_data = {} #for each keyword, array of [date,count] tuples
-
 # GEO Codes for our areas
 DMA_CODES = {
     "atlanta": {
@@ -120,33 +117,46 @@ end_dates = [
     # '2019-06-30',
 ]
 
-all_data_by_kw = []
-for kw in kwsets:
-    data_by_chunk = []
-    for i in range(0, len(start_dates)):
-        start = start_dates[i]
-        end = end_dates[i]
-        tm = start + ' ' + end
-        time.sleep(random.randrange(1,5))
-        pytrend.build_payload(kw_list=kw,
-                      geo=GEO,
-                      timeframe=tm
-                      )
-
-        # Interest Over Time
-        tdf = pytrend.interest_over_time()
-        print(tdf.head())
-        data_by_chunk.append(tdf)
-
-    kw_data = pd.concat(data_by_chunk)
-    print(kw_data.head())
-    all_data_by_kw.append(kw_data)
-
-all_data = pd.concat(all_data_by_kw, axis=1)
-print(all_data.head())
-csv_data = all_data.to_csv("keywords_data.csv")
+US = "US"
 
 
+def submit_google_trend_query(filename, dma_input, kwsets):
+    all_data_by_kw = []
+    for dma in dma_input.values():
+        state = dma['STATE']
+        dma_code = dma['DMA']
+        geo_code = US + "-" + state + "-" + str(dma_code)
+        print("Printing Geo: " + geo_code)
+
+        for kw in kwsets:
+            data_by_chunk = []
+            for i in range(0, len(start_dates)):
+                start = start_dates[i]
+                end = end_dates[i]
+                tm = start + ' ' + end
+                time.sleep(random.randrange(1, 5))
+                pytrend.build_payload(kw_list=kw,
+                                      geo=geo_code,
+                                      timeframe=tm
+                                      )
+
+                # Interest Over Time
+                tdf = pytrend.interest_over_time()
+                print(tdf.head())
+                data_by_chunk.append(tdf)
+
+            kw_data = pd.concat(data_by_chunk)
+            print(kw_data.head())
+            all_data_by_kw.append(kw_data)
+
+        all_data = pd.concat(all_data_by_kw, axis=1)
+        print(all_data.head())
+        csv_data = all_data.to_csv(str(dma_code) + "_" + filename + ".csv")
+
+
+# submit_google_trend_query("ozone", DMA_CODES, ozone_keywords)
+submit_google_trend_query("nitrogen", DMA_CODES, nitrogen_keywords)
+# submit_google_trend_query("pm", DMA_CODES, particulate_matter)
 
 # Daily_Data = []
 
