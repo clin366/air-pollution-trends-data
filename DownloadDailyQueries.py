@@ -4,8 +4,11 @@ from pytrends.request import TrendReq
 import pandas as pd
 
 # set gmail credentials and path to extract data
+
 # Login to Google. Only need to run this once, the rest of requests will use the same session.
 pytrend = TrendReq()
+
+# Create payload and capture API tokens. Only needed for interest_over_time(), interest_by_region() & related_queries()
 
 # GEO Codes for our areas
 DMA_CODES = {
@@ -49,7 +52,7 @@ DMA_CODES = {
         "STATE": "DC",
         "DMA": 511,
     },
-}
+}'
 
 ozone_keywords = [
     ['ozone', 'smog', 'air pollution', 'haze', 'soot'],
@@ -149,11 +152,11 @@ def submit_google_trend_query(filename, dma_input, kwsets):
 
 
 # submit_google_trend_query("ozone", DMA_CODES, ozone_keywords)
-# submit_google_trend_query("nitrogen", DMA_CODES, nitrogen_keywords)
-submit_google_trend_query("pm", DMA_CODES, particulate_matter)
-
+submit_google_trend_query("nitrogen", DMA_CODES, nitrogen_keywords)
+# submit_google_trend_query("pm", DMA_CODES, particulate_matter)
 
 # Daily_Data = []
+
 
 # define daily pull code
 # def GT_Daily_Run(keys):
@@ -193,3 +196,6 @@ submit_google_trend_query("pm", DMA_CODES, particulate_matter)
 # df_final_daily = reduce(lambda left, right: pd.merge(left, right, on='Day'), rge)
 # df_final_daily = df_final_daily.loc[:, (df_final_daily != "0").any(axis=0)]
 # df_final_daily.to_csv("Daily_Trends_Data.csv", index=False)
+
+
+
