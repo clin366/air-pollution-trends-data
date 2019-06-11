@@ -52,46 +52,28 @@ DMA_CODES = {
         "STATE": "DC",
         "DMA": 511,
     },
-}'
+}
 
-ozone_keywords = [
-    ['ozone', 'smog', 'air pollution', 'haze', 'soot'],
-    ['ozone', 'code orange', 'code red', 'O3', 'smoke'],
-    ['ozone', 'asthma', 'respiratory illness', 'respiratory infection', 'lung disease'],
-    ['ozone', 'Chronic obstructive pulmonary disease', 'COPD', 'bronchitis', 'asthma attack'],
-    ['ozone', 'headache', 'cough', 'coughing', 'wheezing'],
-    ['ozone', 'chest pain', 'chest tightness', 'shortness of breath', 'throat irritation'],
-    ['ozone', 'difficulty breathing', 'lung irritation', 'inhaler', 'rapid breathing'],
-    ['ozone', 'heart murmur', 'bronchiolitis', 'snoring', 'irregular heartbeat'],
-]
-
-nitrogen_keywords = [
-    ['nitrogen dioxide', 'no2', 'n02', 'air pollution', 'air pollutant'],
-    ['nitrogen dioxide', 'nitrogen oxides', 'oxides of nitrogen', 'smoke', ],
-    ['nitrogen dioxide', 'traffic emission', 'tailpipe', 'traffic exposure'],
-    ['nitrogen dioxide', 'smog', 'smoggy', 'code orange', 'code red'],
-    ['nitrogen dioxide', 'brown', 'brownish', 'reddish-brown', 'haze'],
-    ['nitrogen dioxide', 'asthma', 'respiratory illness', 'respiratory infection', 'lung disease'],
-    ['nitrogen dioxide', 'Chronic obstructive pulmonary disease', 'COPD', 'bronchitis', 'asthma attack'],
-    ['nitrogen dioxide', 'headache', 'coughing', 'wheezing', 'rapid breathing'],
-    ['nitrogen dioxide', 'chest pain', 'chest tightness', 'shortness of breath', 'throat irritation'],
-    ['nitrogen dioxide', 'difficulty breathing', 'lung irritation', 'inhaler', 'irregular heartbeat'],
-]
-
-particulate_matter = [
-    ['particulate matter', 'pm2.5', 'pm5', 'particulate matter pollution', 'fine particulates'],
-    ['particulate matter', 'air pollution', 'fine particles', 'fine inhalable particles', 'particle pollution'],
-    ['particulate matter', 'wildfires', 'power plants', 'industrial pollution', 'organic carbon'],
-    ['particulate matter', 'traffic', 'traffic emission', 'tailpipe', 'sulfate'],
-    ['particulate matter', 'black carbon', 'elemental carbon', 'soot', 'smog'],
-    ['particulate matter', 'haze', 'code orange', 'code red', 'air pollution alert'],
-    ['particulate matter', 'grey', 'blue', 'pink', 'asthma'],
-    ['particulate matter', 'respiratory illness', 'respiratory infection', 'lung disease', 'bronchitis'],
-    ['particulate matter', 'chronic obstructive pulmonary disease', 'COPD', 'lung cancer', 'cardiovascular disease'],
-    ['particulate matter', 'premature death',  'Rapid heart rate', 'rapid pulse', 'rapid breathing'],
-    ['particulate matter', 'asthma attack', 'coughing', 'arrhythmia', 'wheezing'],
-    ['particulate matter', 'chest tightness', 'shortness of breath', 'throat irritation', 'inhaler use'],
-    ['particulate matter', 'childhood asthma', 'pediatric asthma'],
+keywords = [
+    ['ozone', 'air pollutant', 'air pollution alert', 'air pollution', 'arrhythmia'],
+    ['ozone', 'asthma attack', 'asthma', 'black carbon', 'blue'],
+    ['ozone', 'bronchiolitis', 'bronchitis', 'brown', 'brownish'],
+    ['ozone', 'cardiovascular disease', 'chest pain', 'chest tightness', 'childhood asthma'],
+    ['ozone', 'chronic obstructive pulmonary disease', 'code orange', 'code red', 'COPD'],
+    ['ozone', 'cough', 'coughing', 'difficulty breathing', 'elemental carbon'],
+    ['ozone', 'fine inhalable particles', 'fine particles', 'fine particulates', 'grey'],
+    ['ozone', 'haze', 'headache', 'heart murmur', 'industrial pollution'],
+    ['ozone', 'inhaler use', 'inhaler', 'irregular heartbeat', 'lung cancer'],
+    ['ozone', 'lung disease', 'lung irritation', 'n02', 'nitrogen dioxide'],
+    ['ozone', 'nitrogen oxides', 'no2', 'O3', 'organic carbon'],
+    ['ozone', 'oxides of nitrogen', 'traffic emission', 'particle pollution', 'particulate matter pollution', ],
+    ['ozone', 'particulate matter', 'pediatric asthma', 'pink', 'pm2.5'],
+    ['ozone', 'pm5', 'power plants', 'premature death', 'rapid breathing'],
+    ['ozone', 'Rapid heart rate', 'rapid pulse', 'reddish-brown', 'respiratory illness'],
+    ['ozone', 'respiratory infection', 'shortness of breath', 'smog', 'smoggy'],
+    ['ozone', 'smoke', 'snoring', 'soot', 'sulfate'],
+    ['ozone', 'tailpipe', 'throat irritation', 'traffic emission', 'traffic exposure'],
+    ['ozone', 'traffic', 'wheezing', 'wildfires'],
 ]
 
 start_dates = [
@@ -100,17 +82,17 @@ start_dates = [
     '2011-01-01', '2011-07-01', '2012-01-01', '2012-07-01',
     '2013-01-01', '2013-07-01', '2014-01-01', '2014-07-01',
     '2015-01-01', '2015-07-01', '2016-01-01', '2016-07-01',
-    '2017-01-01', '2015-07-01', '2018-01-01', '2018-07-01',
+    '2017-01-01', '2017-07-01', '2018-01-01', '2018-07-01',
     # '2019-01-01',
 ]
 
 end_dates = [
-    '2007-06-30', '2008-01-31', '2008-06-30', '2009-01-31',
-    '2009-06-30', '2010-01-31', '2010-06-30', '2011-01-31',
-    '2011-06-30', '2012-01-31', '2012-06-30', '2013-01-31',
-    '2013-06-30', '2014-01-31', '2014-06-30', '2015-01-31',
-    '2015-06-30', '2016-01-31', '2016-06-30', '2017-01-31',
-    '2017-06-30', '2018-01-31', '2018-06-30', '2019-01-31',
+    '2007-06-30', '2007-12-31', '2008-06-30', '2008-12-31',
+    '2009-06-30', '2009-12-31', '2010-06-30', '2010-12-31',
+    '2011-06-30', '2011-12-31', '2012-06-30', '2012-12-31',
+    '2013-06-30', '2013-12-31', '2014-06-30', '2014-12-31',
+    '2015-06-30', '2015-12-31', '2016-06-30', '2016-12-31',
+    '2017-06-30', '2017-12-31', '2018-06-30', '2018-12-31',
     # '2019-06-30',
 ]
 
@@ -151,9 +133,7 @@ def submit_google_trend_query(filename, dma_input, kwsets):
         csv_data = all_data.to_csv(str(dma_code) + "_" + filename + ".csv")
 
 
-# submit_google_trend_query("ozone", DMA_CODES, ozone_keywords)
-submit_google_trend_query("nitrogen", DMA_CODES, nitrogen_keywords)
-# submit_google_trend_query("pm", DMA_CODES, particulate_matter)
+submit_google_trend_query("keywords", DMA_CODES, keywords)
 
 # Daily_Data = []
 
