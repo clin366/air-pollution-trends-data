@@ -1,7 +1,9 @@
+import sys
 import random
 import time
 from pytrends.request import TrendReq
 import pandas as pd
+
 
 # set gmail credentials and path to extract data
 
@@ -99,41 +101,54 @@ end_dates = [
 US = "US"
 
 
-def submit_google_trend_query(filename, dma_input, kwsets):
+def submit_single_dma(city_name):
+    submit_dma_based_query(city_name, DMA_CODES[city_name], keywords)
+
+
+def submit_all_dma():
+    for city, dma in DMA_CODES.items():
+        submit_dma_based_query(city, dma, keywords)
+
+
+def submit_dma_based_query(filename, dma, kwsets):
     all_data_by_kw = []
-    for dma in dma_input.values():
-        state = dma['STATE']
-        dma_code = dma['DMA']
-        geo_code = US + "-" + state + "-" + str(dma_code)
-        print("Printing Geo: " + geo_code)
+    state = dma['STATE']
+    dma_code = dma['DMA']
+    geo_code = US + "-" + state + "-" + str(dma_code)
+    print("GEO Code: " + geo_code)
 
-        for kw in kwsets:
-            data_by_chunk = []
-            for i in range(0, len(start_dates)):
-                start = start_dates[i]
-                end = end_dates[i]
-                tm = start + ' ' + end
-                time.sleep(random.randrange(1, 5))
-                pytrend.build_payload(kw_list=kw,
-                                      geo=geo_code,
-                                      timeframe=tm
-                                      )
+    for kw in kwsets:
+        data_by_chunk = []
+        for i in range(0, len(start_dates)):
+            start = start_dates[i]
+            end = end_dates[i]
+            tm = start + ' ' + end
+            time.sleep(random.randrange(1, 5))
+            pytrend.build_payload(kw_list=kw,
+                                  geo=geo_code,
+                                  timeframe=tm
+                                  )
 
-                # Interest Over Time
-                tdf = pytrend.interest_over_time()
-                print(tdf.head())
-                data_by_chunk.append(tdf)
+            # Interest Over Time
+            tdf = pytrend.interest_over_time()
+            print(tdf.head())
+            data_by_chunk.append(tdf)
 
-            kw_data = pd.concat(data_by_chunk)
-            print(kw_data.head())
-            all_data_by_kw.append(kw_data)
+        kw_data = pd.concat(data_by_chunk)
+        print(kw_data.head())
+        all_data_by_kw.append(kw_data)
 
-        all_data = pd.concat(all_data_by_kw, axis=1)
-        print(all_data.head())
-        csv_data = all_data.to_csv(str(dma_code) + "_" + filename + ".csv")
+    all_data = pd.concat(all_data_by_kw, axis=1)
+    print(all_data.head())
+    csv_data = all_data.to_csv(filename + ".csv")
 
 
-submit_google_trend_query("keywords", DMA_CODES, keywords)
+# If "all" is passed in we run query all of our cities
+if sys.argv[1] == "all":
+    submit_all_dma()
+# Else we query based on the single city name
+else:
+    submit_single_dma(sys.argv[1])
 
 # Daily_Data = []
 
