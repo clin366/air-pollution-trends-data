@@ -34,7 +34,7 @@ DMA_CODES = {
         "STATE": "TX",
         "DMA": 618,
     },
-    "los angeles": {
+    "los_angeles": {
         "STATE": "CA",
         "DMA": 803,
     },
@@ -42,7 +42,7 @@ DMA_CODES = {
         "STATE": "FL",
         "DMA": 528,
     },
-    "new york": {
+    "new_york": {
         "STATE": "NY",
         "DMA": 501,
     },
