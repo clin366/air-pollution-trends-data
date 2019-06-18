@@ -124,7 +124,7 @@ def submit_dma_based_query(filename, dma, kwsets):
             start = start_dates[i]
             end = end_dates[i]
             tm = start + ' ' + end
-            time.sleep(random.randrange(1, 5))
+            time.sleep(random.randrange(2, 5))
             pytrend.build_payload(kw_list=kw,
                                   geo=geo_code,
                                   timeframe=tm
@@ -137,7 +137,7 @@ def submit_dma_based_query(filename, dma, kwsets):
 
         kw_data = pd.concat(data_by_chunk)
         all_data_by_kw.append(kw_data)
-        all_data_by_kw.to_csv(filename + "_" + kw[2] + "_" + start + ".csv")
+        temp_data = pd.concat(all_data_by_kw).to_csv(filename + "_" + kw[2] + "_" + start + ".csv")
 
     all_data = pd.concat(all_data_by_kw, axis=1)
     print(all_data.head())
