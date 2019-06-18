@@ -57,6 +57,7 @@ DMA_CODES = {
 }
 
 keywords = [
+    ['ozone', 'blue', 'clothes', 'love', 'shoes'],  # a set of keywords that are pretty consistent over the last decade
     ['ozone', 'air pollutant', 'air pollution alert', 'air pollution', 'arrhythmia'],
     ['ozone', 'asthma attack', 'asthma', 'black carbon', 'blue'],
     ['ozone', 'bronchiolitis', 'bronchitis', 'brown', 'brownish'],
@@ -135,8 +136,8 @@ def submit_dma_based_query(filename, dma, kwsets):
             data_by_chunk.append(tdf)
 
         kw_data = pd.concat(data_by_chunk)
-        print(kw_data.head())
         all_data_by_kw.append(kw_data)
+        all_data_by_kw.to_csv(filename + "_" + kw[2] + "_" + start + ".csv")
 
     all_data = pd.concat(all_data_by_kw, axis=1)
     print(all_data.head())
