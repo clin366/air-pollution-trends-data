@@ -100,30 +100,27 @@ end_dates = [
 ]
 
 US = "US"
-
-
-def submit_single_dma(city_name):
-    submit_dma_based_query(city_name, DMA_CODES[city_name], keywords)
+QUERY_FULL_KWSET = 0
 
 
 def submit_all_dma():
     for city, dma in DMA_CODES.items():
-        submit_dma_based_query(city, dma, keywords)
+        submit_dma_based_query(city, dma, keywords, QUERY_FULL_KWSET)
 
 
-def submit_dma_based_query(filename, dma, kwsets):
+def submit_dma_based_query(filename, dma, kwsets, starting_kwset):
     all_data_by_kw = []
     state = dma['STATE']
     dma_code = dma['DMA']
     geo_code = US + "-" + state + "-" + str(dma_code)
     print("GEO Code: " + geo_code)
 
-    for kw in kwsets:
+    for kw in kwsets[starting_kwset:]:
         data_by_chunk = []
         for i in range(0, len(start_dates)):
-            start = start_dates[i]
-            end = end_dates[i]
-            tm = start + ' ' + end
+            start_date = start_dates[i]
+            end_date = end_dates[i]
+            tm = start_date + ' ' + end_date
             time.sleep(random.randrange(2, 5))
             pytrend.build_payload(kw_list=kw,
                                   geo=geo_code,
@@ -137,7 +134,7 @@ def submit_dma_based_query(filename, dma, kwsets):
 
         kw_data = pd.concat(data_by_chunk)
         all_data_by_kw.append(kw_data)
-        pd.concat(all_data_by_kw).to_csv(filename + "_" + kw[2] + "_" + start + ".csv")
+        pd.concat(all_data_by_kw).to_csv(filename + "_" + kw[1] + ".csv")
 
     all_data = pd.concat(all_data_by_kw, axis=1)
     print(all_data.head())
@@ -145,11 +142,13 @@ def submit_dma_based_query(filename, dma, kwsets):
 
 
 # If "all" is passed in we run query all of our cities
-if sys.argv[1] == "all":
-    submit_all_dma()
-# Else we query based on the single city name
-else:
-    submit_single_dma(sys.argv[1])
+if len(sys.argv) == 3:
+    submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keywords, sys.argv[2])
+if len(sys.argv) == 2:
+    if sys.argv[1] == "all":
+        submit_all_dma()
+    else:
+        submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keywords, QUERY_FULL_KWSET)
 
 # Daily_Data = []
 
