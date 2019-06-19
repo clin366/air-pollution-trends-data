@@ -23,6 +23,7 @@ for kw in cols:
     if kw == 'date':
         continue
 
+    first_run = True
     date_prev = None
     scale = 1.0
     seen_dates = {}
@@ -38,7 +39,12 @@ for kw in cols:
         date_new = datetime.strptime(dt, "%Y-%m-%d")
 
         if (not (date_prev is None)) and (date_new > date_prev):  # update scale factor
-            past_avg = data[kw].iloc[idx - 31: idx].replace(0, pd.np.NaN).mean()
+            if first_run:
+                past_avg = data[kw].iloc[idx - 31: idx].replace(0, pd.np.NaN).mean()
+                first_run = False
+            else:
+                past_avg = rescaled[kw].iloc[idx - 31: idx].replace(0, pd.np.NaN).mean()
+
             future_avg = data[kw].iloc[idx + 1: idx + 32].replace(0, pd.np.NaN).mean()
             scale = future_avg / max(past_avg, 1)
 
