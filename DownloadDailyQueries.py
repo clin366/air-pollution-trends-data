@@ -106,26 +106,36 @@ keyword_set_size_threshold = 100
 
 def generate_keyword_sets(input_filename):
     keywords_file = open(input_filename, "r")
-    full_keyword_set = []
-    join_word = None
 
-    count = -1
+    full_keyword_set = []
     inner_keyword_set = []
+    initial_keyword_list = []
+    join_word = None
+    count = -1
     for line in keywords_file:
-        if count == keyword_set_size_threshold:
-            break
         count = count + 1
         fixed_line = line.strip('\n').lower()
         if count == 0:
             join_word = fixed_line
-            inner_keyword_set.append(join_word)
-            inner_keyword_set.append(intercity_scaling_word)
+        initial_keyword_list.append(fixed_line)
+        if count == keyword_set_size_threshold:
+            keywords_file.close()
+            break
+
+    initial_keyword_set = set(initial_keyword_list)
+    count = 0
+
+    full_keyword_set.append([join_word, intercity_scaling_word])
+    inner_keyword_set = [join_word]
+    for word in initial_keyword_set:
+        if word == join_word:
+            continue
+        count = count + 1
+        inner_keyword_set.append(word)
+        if count % 4 == 0:
             full_keyword_set.append(inner_keyword_set)
             inner_keyword_set = [join_word]
-        inner_keyword_set.append(fixed_line)
-        if count % 4:
-            full_keyword_set.append(inner_keyword_set)
-            inner_keyword_set = [join_word]
+    full_keyword_set.append(inner_keyword_set)
 
     return full_keyword_set
 
