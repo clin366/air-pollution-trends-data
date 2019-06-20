@@ -56,7 +56,7 @@ DMA_CODES = {
     },
 }
 
-keywords = [
+default_keywords = [
     ['ozone', 'blue', 'clothes', 'love', 'shoes'],  # a set of keywords that are pretty consistent over the last decade
     ['ozone', 'air pollutant', 'air pollution alert', 'air pollution', 'arrhythmia'],
     ['ozone', 'asthma attack', 'asthma', 'black carbon', 'blue'],
@@ -100,15 +100,37 @@ end_dates = [
 ]
 
 US = "US"
-QUERY_FULL_KWSET = 0
+intercity_scaling_word = "discover"
+keyword_set_size_threshold = 100
 
 
-def submit_all_dma():
-    for city, dma in DMA_CODES.items():
-        submit_dma_based_query(city, dma, keywords, QUERY_FULL_KWSET)
+def generate_keyword_sets(input_filename):
+    keywords_file = open(input_filename, "r")
+    full_keyword_set = []
+    join_word = None
+
+    count = -1
+    inner_keyword_set = []
+    for line in keywords_file:
+        if count == keyword_set_size_threshold:
+            break
+        count = count + 1
+        fixed_line = line.strip('\n').lower()
+        if count == 0:
+            join_word = fixed_line
+            inner_keyword_set.append(join_word)
+            inner_keyword_set.append(intercity_scaling_word)
+            full_keyword_set.append(inner_keyword_set)
+            inner_keyword_set = [join_word]
+        inner_keyword_set.append(fixed_line)
+        if count % 4:
+            full_keyword_set.append(inner_keyword_set)
+            inner_keyword_set = [join_word]
+
+    return full_keyword_set
 
 
-def submit_dma_based_query(filename, dma, kwsets, starting_kwset):
+def submit_dma_based_query(output_filename, dma, kwsets, starting_kwset=0):
     all_data_by_kw = []
     state = dma['STATE']
     dma_code = dma['DMA']
@@ -134,21 +156,34 @@ def submit_dma_based_query(filename, dma, kwsets, starting_kwset):
 
         kw_data = pd.concat(data_by_chunk)
         all_data_by_kw.append(kw_data)
-        pd.concat(all_data_by_kw).to_csv(filename + "_" + kw[1] + ".csv")
+        pd.concat(all_data_by_kw).to_csv(output_filename + "_" + kw[1] + ".csv")
 
     all_data = pd.concat(all_data_by_kw, axis=1)
     print(all_data.head())
-    csv_data = all_data.to_csv(filename + ".csv")
+    csv_data = all_data.to_csv(output_filename + ".csv")
 
 
 # If "all" is passed in we run query all of our cities
-if len(sys.argv) == 3:
-    submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keywords, sys.argv[2])
-if len(sys.argv) == 2:
+if len(sys.argv) == 4:
+    keyword_set = generate_keyword_sets(sys.argv[2])
+    submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keyword_set, sys.argv[3])
+elif len(sys.argv) == 3:
+    keyword_set = generate_keyword_sets(sys.argv[2])
     if sys.argv[1] == "all":
-        submit_all_dma()
+        for city, dma in DMA_CODES.items():
+            submit_dma_based_query(city, dma, keyword_set,)
     else:
-        submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keywords, QUERY_FULL_KWSET)
+        submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keyword_set)
+elif len(sys.argv) == 2:
+    if sys.argv[1] == "all":
+        for city, dma in DMA_CODES.items():
+            submit_dma_based_query(city, dma, default_keywords,)
+    else:
+        submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], default_keywords)
+else:
+    print("Input Invalid: City_Name, Keywords_File, Keywords starting position if terminated early")
+    print("Note: the first word in the keywords file will be the joining word (word used to rescale data)")
+
 
 # Daily_Data = []
 
