@@ -102,6 +102,7 @@ end_dates = [
 US = "US"
 intercity_scaling_word = "discover"
 keyword_set_size_threshold = 100
+potential_duplicate_words = True
 
 
 def generate_keyword_sets(input_filename):
@@ -122,12 +123,13 @@ def generate_keyword_sets(input_filename):
             keywords_file.close()
             break
 
-    initial_keyword_set = set(initial_keyword_list)
+    if potential_duplicate_words:
+        initial_keyword_list = set(initial_keyword_list)
     count = 0
 
     full_keyword_set.append([join_word, intercity_scaling_word])
     inner_keyword_set = [join_word]
-    for word in initial_keyword_set:
+    for word in initial_keyword_list:
         if word == join_word:
             continue
         count = count + 1
