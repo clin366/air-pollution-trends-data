@@ -114,7 +114,7 @@ def generate_keyword_sets(input_filename):
     count = -1
     for line in keywords_file:
         count = count + 1
-        fixed_line = line.strip('\n').lower()
+        fixed_line = line.strip('\n').lower().strip()
         if count == 0:
             join_word = fixed_line
         initial_keyword_list.append(fixed_line)
