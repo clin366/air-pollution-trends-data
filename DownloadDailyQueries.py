@@ -101,6 +101,7 @@ end_dates = [
 
 US = "US"
 intercity_scaling_word = "discover"
+intercity_scaling_word_second = "clothes"
 keyword_set_size_threshold = 100
 potential_duplicate_words = True
 
@@ -127,7 +128,7 @@ def generate_keyword_sets(input_filename):
         initial_keyword_list = set(initial_keyword_list)
     count = 0
 
-    full_keyword_set.append([join_word, intercity_scaling_word])
+    full_keyword_set.append([join_word, intercity_scaling_word, intercity_scaling_word_second])
     inner_keyword_set = [join_word]
     for word in initial_keyword_list:
         if word == join_word:
@@ -178,7 +179,7 @@ def submit_dma_based_query(output_filename, dma, kwsets, starting_kwset=0):
 # If "all" is passed in we run query all of our cities
 if len(sys.argv) == 4:
     keyword_set = generate_keyword_sets(sys.argv[2])
-    submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keyword_set, sys.argv[3])
+    submit_dma_based_query(sys.argv[1], DMA_CODES[sys.argv[1]], keyword_set, int(sys.argv[3]))
 elif len(sys.argv) == 3:
     keyword_set = generate_keyword_sets(sys.argv[2])
     if sys.argv[1] == "all":
