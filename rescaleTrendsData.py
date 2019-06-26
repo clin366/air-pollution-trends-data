@@ -27,9 +27,6 @@ for kw in cols:
     date_prev = None
     scale = 1.0
     seen_dates = {}
-    last_ozone = 'ozone'
-    if 'ozone' in kw:
-        last_ozone = kw
 
     for idx in reversed(data.index):
         row = data.loc[idx]
