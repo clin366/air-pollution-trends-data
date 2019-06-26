@@ -55,6 +55,6 @@ for kw in cols:
         rescaled.loc[dt, kw] = scaled
         seen_dates[dt] = 1
 
-    print("Finished rescaling keywords: ", kw)
+    print("Finished stitching keywords through time: ", kw)
 
-rescaled.to_csv('keywords_data_rescaled.csv')
+rescaled.to_csv('keywords_data_stitched.csv')
