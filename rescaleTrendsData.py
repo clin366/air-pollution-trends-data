@@ -1,13 +1,20 @@
 from datetime import datetime
 
 import pandas as pd
+import sys
 
 # read into array for each keyword
 # drop "is complete"
 # foreach keyword
 # work backwords, scale factor = 1. for overlap regions, compute scale between means
 
-data = pd.read_csv('keywords_data.csv')
+if len(sys.argv) == 2:
+    input_filename = sys.argv[1]
+else:
+    print("Please pass in a file name.")
+    exit()
+
+data = pd.read_csv(input_filename)
 
 # drops isParital columns
 cols = [c for c in data.columns if c[:9] != 'isPartial']
@@ -57,4 +64,4 @@ for kw in cols:
 
     print("Finished stitching keywords through time: ", kw)
 
-rescaled.to_csv('keywords_data_stitched.csv')
+rescaled.to_csv(input_filename + '_stitched.csv')

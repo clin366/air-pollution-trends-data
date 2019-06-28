@@ -14,7 +14,7 @@ else:
     print("Please pass in a file name.")
     exit()
 
-stitched = pd.read_csv(input_filename + '.csv')
+stitched = pd.read_csv(input_filename)
 
 cols = stitched.columns
 
