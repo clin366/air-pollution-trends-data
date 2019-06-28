@@ -54,4 +54,4 @@ for last_day_in_month in months_in_table:
     list_of_rescaled_months.append(rescaled_monthly_table)
 
 aggregated_monthly_tables = pd.concat(list_of_rescaled_months, sort=True)
-aggregated_monthly_tables.to_csv(input_filename + '_cross_set_scaled.csv')
+aggregated_monthly_tables.to_csv(input_filename.replace('.csv', '_cross_set_scaled.csv'))

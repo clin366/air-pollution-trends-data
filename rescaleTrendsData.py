@@ -64,4 +64,4 @@ for kw in cols:
 
     print("Finished stitching keywords through time: ", kw)
 
-rescaled.to_csv(input_filename + '_stitched.csv')
+rescaled.to_csv(input_filename.replace('.csv', '_stitched.csv'))
