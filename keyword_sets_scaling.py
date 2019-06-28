@@ -14,8 +14,7 @@ else:
     print("Please pass in a file name.")
     exit()
 
-stitched = pd.read_csv(input_filename)
-
+stitched = pd.read_csv(input_filename, index_col=0)
 cols = stitched.columns
 
 latest_date_in_table = stitched.index.values[0]
