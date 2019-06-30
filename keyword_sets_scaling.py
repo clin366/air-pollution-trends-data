@@ -1,6 +1,9 @@
-from datetime import datetime
-import pandas as pd
 import sys
+from datetime import datetime
+
+import pandas as pd
+
+input_filename = None
 
 # Starting keyword set rescaling
 CROSS_SET_KEYWORD = 'ozone'
