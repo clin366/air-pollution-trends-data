@@ -39,7 +39,9 @@ for kw in cols:
             if not is_first_slice_index_set:
                 is_first_slice_index_set = True
                 first_slice_date = datetime(year, month, 1).strftime("%Y-%m-%d")
-                duplicate_dates = np.where(trends["date"] == first_slice_date)
+                duplicate_dates = np.where(trends["date"] == first_slice_date)[0]  # returns touple and not an array
+                print(duplicate_dates)
+                print(type(duplicate_dates))
                 if len(duplicate_dates) == 1:  # should only equal one on our very first run
                     continue
                 else:
