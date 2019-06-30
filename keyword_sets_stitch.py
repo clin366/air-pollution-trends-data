@@ -20,6 +20,11 @@ cols = [c for c in trends.columns if c[:9] != 'isPartial']
 trends = trends[cols]
 cols.remove('date')
 
+df = trends.iloc[0:10]
+mean_df = df.mean(axis=0)  # takes mean of each column, idk why axis=0 does columns instead of axis=1
+print(mean_df)
+print(mean_df.loc['discover'])
+
 is_first_run = True
 first_slice_index = None
 last_slice_index = None
@@ -59,21 +64,21 @@ for last_datetime_in_month in months_in_table:
 
                 stitched_time_range_table = None
                 scale = 1.0
-                for kw in cols:a # TODO - see if if this can be deleted
+                for kw in cols: # TODO - see if if this can be deleted
                     past_avg = trends[kw].iloc[past_avg_month_table_start: past_avg_month_table_end].replace(0, pd.np.NaN).mean()
                     future_avg = trends[kw].iloc[future_avg_month_table_start: future_avg_month_table_end].replace(0, pd.np.NaN).mean()
                     scale = future_avg / max(past_avg, 1)
 
 
-
-
-
-                    # TODO - pull information from the previously stitched table so that it is continuous
-
-                is_first_run = False
-            else:
-                print()
-    print()
+    #
+    #
+    #
+    #                 # TODO - pull information from the previously stitched table so that it is continuous
+    #
+    #             is_first_run = False
+    #         else:
+    #             print()
+    # print()
 
 # past_avg = trends[kw].iloc[duplicate_dates[0]: duplicate_dates[1]].replace(0, pd.np.NaN).mean()
 #
