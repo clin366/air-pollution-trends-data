@@ -1,7 +1,8 @@
-from datetime import datetime
-import pandas as pd
-import numpy as np
 import sys
+from datetime import datetime
+
+import numpy as np
+import pandas as pd
 
 input_filename = None
 if len(sys.argv) == 2:
@@ -46,7 +47,6 @@ for kw in cols:
                     continue
                 else:
                     past_avg = trends[kw].iloc[duplicate_dates[0]: duplicate_dates[1]].replace(0, pd.np.NaN).mean()
-
 
 #
 #
