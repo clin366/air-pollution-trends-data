@@ -141,7 +141,6 @@ else:
     scaled_trends = combine_and_scale_keyword_sets(trends, months_in_table)
 
 scaled_trends = scaled_trends[cols]
-scaled_trends.to_csv(input_filename.replace('.csv', '_scaled.csv'))
 
 stitched_and_scaled_trends = stitch_keywords(scaled_trends, months_in_table, STITCHING_MONTHS)
-stitched_and_scaled_trends.to_csv(input_filename.replace('.csv', '_stitched.csv'))
+stitched_and_scaled_trends.to_csv(input_filename.replace('.csv', '_scaled.csv'))
