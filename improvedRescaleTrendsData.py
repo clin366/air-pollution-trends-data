@@ -38,12 +38,12 @@ def scale_monthly_data(unscaled_monthly_data, cross_set_join_word=CROSS_SET_KEYW
 def combine_and_scale_keyword_sets(data, months_to_scale, cross_set_join_word=CROSS_SET_KEYWORD):
     # scales keyword sets between a chosen join word
     list_of_rescaled_months = list()
-    for last_datetime_in_month in months_to_scale:
-        first_day_in_month = datetime(last_datetime_in_month.year, last_datetime_in_month.month, 1).strftime("%Y-%m-%d")
-        last_datetime_in_month = last_datetime_in_month.strftime("%Y-%m-%d")
+    for last_day_in_month in months_to_scale:
+        first_day_in_month = datetime(last_day_in_month.year, last_day_in_month.month, 1).strftime("%Y-%m-%d")
+        last_day_in_month = last_day_in_month.strftime("%Y-%m-%d")
 
         duplicate_first_day_in_month_list = np.where(data["date"] == first_day_in_month)[0]
-        duplicate_last_day_in_month_list = np.where(data["date"] == last_datetime_in_month)[0]
+        duplicate_last_day_in_month_list = np.where(data["date"] == last_day_in_month)[0]
 
         monthly_data = data.iloc[duplicate_first_day_in_month_list[0]: duplicate_last_day_in_month_list[0] + 1]
         scaled_monthly_data = scale_monthly_data(monthly_data, cross_set_join_word)
@@ -66,15 +66,15 @@ def stitch_keywords(data, months_to_stitch, overlapping_months=STITCHING_MONTHS)
     scale = pd.DataFrame(index=data.columns)
     scale['scale'] = 1
 
-    for last_datetime_in_month in months_to_stitch:
-        if last_datetime_in_month.month in overlapping_months:
-            first_day_in_month = datetime(last_datetime_in_month.year, last_datetime_in_month.month, 1).strftime("%Y-%m-%d")
-            last_datetime_in_month = last_datetime_in_month.strftime("%Y-%m-%d")
-            print("\n" + str(last_datetime_in_month))
+    for last_day_in_month in months_to_stitch:
+        if last_day_in_month.month in overlapping_months:
+            first_day_in_month = datetime(last_day_in_month.year, last_day_in_month.month, 1).strftime("%Y-%m-%d")
+            last_day_in_month = last_day_in_month.strftime("%Y-%m-%d")
+            print("Stitching time range" + str(first_day_in_month) + " - " + str(last_day_in_month))
 
             # list of start and end indices current the duplicate months (months used to stitch)
             duplicate_first_day_in_month_list = np.where(data["date"] == first_day_in_month)[0]
-            duplicate_last_day_in_month_list = np.where(data["date"] == last_datetime_in_month)[0]
+            duplicate_last_day_in_month_list = np.where(data["date"] == last_day_in_month)[0]
 
             if is_first_run and first_slice_index is None:
                 first_slice_index = duplicate_first_day_in_month_list[0]
@@ -101,7 +101,7 @@ def stitch_keywords(data, months_to_stitch, overlapping_months=STITCHING_MONTHS)
                     is_first_run = False
                     past_avg = data.iloc[duplicate_first_day_in_month_list[0]: duplicate_last_day_in_month_list[0] + 1].replace(0, pd.np.NaN).mean(axis=0)
                 else:
-                    past_avg = time_range.loc[first_day_in_month: last_datetime_in_month].replace(0, pd.np.NaN).mean(axis=0)
+                    past_avg = time_range.loc[first_day_in_month: last_day_in_month].replace(0, pd.np.NaN).mean(axis=0)
 
                 future_avg = data.iloc[duplicate_first_day_in_month_list[1]: duplicate_last_day_in_month_list[1] + 1].replace(0, pd.np.NaN).mean(axis=0)
                 past_avg = past_avg.fillna(1)
@@ -114,7 +114,10 @@ def stitch_keywords(data, months_to_stitch, overlapping_months=STITCHING_MONTHS)
 
 input_filename = None
 if len(sys.argv) > 1:
-    input_filename = sys.argv[1]
+    if ".csv" not in sys.argv[1]:
+        input_filename = sys.argv[1] + ".csv"
+    else:
+        input_filename = sys.argv[1]
 else:
     print("Please pass in a file name for stitching.")
     exit()
