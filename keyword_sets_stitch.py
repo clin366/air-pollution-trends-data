@@ -4,14 +4,10 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-input_filename = None
-if len(sys.argv) == 2:
-    input_filename = sys.argv[1]
-else:
-    print("Please pass in a file name for stitching.")
-    exit()
-
-STITCHING_MONTHS = (1, 7)
+# STATIC VARIABLES
+# common month between time ranges used for stitching
+STITCHING_MONTHS = (1, 7)  # january and july
+# common word between keyword sets used for scaling
 CROSS_SET_KEYWORD = 'ozone'
 
 
@@ -52,6 +48,8 @@ def combine_and_scale_keyword_sets(data, months_to_scale, cross_set_join_word=CR
         monthly_data = data.iloc[duplicate_first_day_in_month_list[0]: duplicate_last_day_in_month_list[0] + 1]
         scaled_monthly_data = scale_monthly_data(monthly_data, cross_set_join_word)
         list_of_rescaled_months.append(scaled_monthly_data)
+
+        # rescales the duplicate months which are needed later for stitching
         if len(duplicate_first_day_in_month_list) > 1 and len(duplicate_last_day_in_month_list) > 1:
             monthly_data = data.iloc[duplicate_first_day_in_month_list[1]: duplicate_last_day_in_month_list[1] + 1]
             scaled_monthly_data = scale_monthly_data(monthly_data, cross_set_join_word)
@@ -74,7 +72,7 @@ def stitch_keywords(data, months_to_stitch, overlapping_months=STITCHING_MONTHS)
             last_datetime_in_month = last_datetime_in_month.strftime("%Y-%m-%d")
             print("\n" + str(last_datetime_in_month))
 
-            # list of indices duplicate start and end dates for current month
+            # list of start and end indices current the duplicate months (months used to stitch)
             duplicate_first_day_in_month_list = np.where(data["date"] == first_day_in_month)[0]
             duplicate_last_day_in_month_list = np.where(data["date"] == last_datetime_in_month)[0]
 
@@ -114,6 +112,14 @@ def stitch_keywords(data, months_to_stitch, overlapping_months=STITCHING_MONTHS)
     return pd.concat(list_of_stitched_time_ranges, sort=True)
 
 
+input_filename = None
+if len(sys.argv) > 1:
+    input_filename = sys.argv[1]
+else:
+    print("Please pass in a file name for stitching.")
+    exit()
+
+
 trends = pd.read_csv(input_filename)
 
 # drops columns named partial
@@ -125,7 +131,11 @@ first_date_in_table = trends.iloc[0, 0]
 last_date_in_table = trends.iloc[-1, 0]
 months_in_table = pd.date_range(start=first_date_in_table, end=last_date_in_table, freq='M')
 
-scaled_trends = combine_and_scale_keyword_sets(trends, months_in_table, CROSS_SET_KEYWORD)
+if len(sys.argv) == 3:
+    scaled_trends = combine_and_scale_keyword_sets(trends, months_in_table, sys.argv[2])
+else:
+    scaled_trends = combine_and_scale_keyword_sets(trends, months_in_table)
+
 scaled_trends = scaled_trends[cols]
 scaled_trends.to_csv(input_filename.replace('.csv', '_scaled.csv'))
 
