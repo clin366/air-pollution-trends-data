@@ -41,6 +41,7 @@ def combine_and_scale_keyword_sets(data, months_to_scale, cross_set_join_word=CR
     for last_day_in_month in months_to_scale:
         first_day_in_month = datetime(last_day_in_month.year, last_day_in_month.month, 1).strftime("%Y-%m-%d")
         last_day_in_month = last_day_in_month.strftime("%Y-%m-%d")
+        print("Joining keyword sets: " + last_day_in_month)
 
         duplicate_first_day_in_month_list = np.where(data["date"] == first_day_in_month)[0]
         duplicate_last_day_in_month_list = np.where(data["date"] == last_day_in_month)[0]
@@ -70,7 +71,7 @@ def stitch_keywords(data, months_to_stitch, overlapping_months=STITCHING_MONTHS)
         if last_day_in_month.month in overlapping_months:
             first_day_in_month = datetime(last_day_in_month.year, last_day_in_month.month, 1).strftime("%Y-%m-%d")
             last_day_in_month = last_day_in_month.strftime("%Y-%m-%d")
-            print("Stitching time range" + str(first_day_in_month) + " - " + str(last_day_in_month))
+            print("Stitch dates: " + str(last_day_in_month))
 
             # list of start and end indices current the duplicate months (months used to stitch)
             duplicate_first_day_in_month_list = np.where(data["date"] == first_day_in_month)[0]
@@ -119,7 +120,7 @@ if len(sys.argv) > 1:
     else:
         input_filename = sys.argv[1]
 else:
-    print("Please pass in a file name for stitching.")
+    print("Please pass in a file name and a (optional: ozone is default) common keyword set join word.")
     exit()
 
 
